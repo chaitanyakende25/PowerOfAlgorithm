@@ -7,13 +7,10 @@ import java.io.*;
 import java.util.*;
 
 public class TSE {
-    // Number of nodes (4 in this case)
     static int n = 4;
 
-    // Define a large value to represent "infinity"
     static int MAX = 1000000;
 
-    // Distance matrix representing the graph (4x4)
     static int[][] dist = {
         { 0, 10, 15, 20 }, // distances from node 1
         { 5,  0,  9, 10 }, // distances from node 2
@@ -21,14 +18,11 @@ public class TSE {
         { 8,  8,  9,  0 }  // distances from node 4
     };
 
-    // Memoization for top-down recursion
     static int[][] memo = new int[n][(1 << n)];
 
-    // Recursive function to compute the minimum cost
     static int tsp(int pos, boolean[] visited) {
-        // Base case: if all cities are visited, return the cost to go back to the starting node
         if (allVisited(visited)) {
-            return dist[pos][0]; // Return the cost to go back to node 1 (starting point)
+            return dist[pos][0]; 
         }
 
         // Memoization check
@@ -37,21 +31,20 @@ public class TSE {
             return memo[pos][mask];
         }
 
-        int res = MAX; // Initialize result to a large value
+        int res = MAX; 
 
         // Explore all unvisited nodes
         for (int next = 0; next < n; next++) {
             if (!visited[next]) {
-                visited[next] = true; // Mark the node as visited
-                res = Math.min(res, dist[pos][next] + tsp(next, visited)); // Recurse to the next node
-                visited[next] = false; // Backtrack (unvisit the node)
+                visited[next] = true; 
+                res = Math.min(res, dist[pos][next] + tsp(next, visited)); 
+                visited[next] = false; 
             }
         }
 
-        return memo[pos][mask] = res; // Store the computed result
+        return memo[pos][mask] = res; 
     }
 
-    // Helper function to check if all nodes are visited
     static boolean allVisited(boolean[] visited) {
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
@@ -61,7 +54,7 @@ public class TSE {
         return true;
     }
 
-    // Helper function to create a unique mask from the visited array
+    
     static int createMask(boolean[] visited) {
         int mask = 0;
         for (int i = 0; i < n; i++) {
@@ -72,22 +65,20 @@ public class TSE {
         return mask;
     }
 
-    // Driver program to test the logic
     public static void main(String[] args) {
-        // Initialize memoization array with all zeros
         for (int[] row : memo) {
             Arrays.fill(row, 0);
         }
 
-        boolean[] visited = new boolean[n]; // Visited array to track visited nodes
+        boolean[] visited = new boolean[n]; 
         visited[0] = true; // Start by visiting node 1 (position 0)
 
-        int ans = tsp(0, visited); // Start the recursion from node 1 (position 0)
+        int ans = tsp(0, visited); 
 
         System.out.println("The cost of the most efficient tour = " + ans);
     }
 }
-explain this code  
+
 ```
 
 This Java code solves the Traveling Salesman Problem (TSP) using a recursive dynamic programming approach with memoization. The problem aims to find the minimum cost of visiting all the cities exactly once and returning to the starting city. Let's break down each part of the code:
@@ -179,3 +170,6 @@ System.out.println("The cost of the most efficient tour = " + ans);
 * Bit Masking: A unique mask is created to represent the set of visited cities.
   
 This code efficiently solves the TSP by exploring all possible paths through recursive backtracking and memoization.
+
+## Time Complexity : O(n² * 2ⁿ)
+## Space Complexity: O(n⋅2^n)
