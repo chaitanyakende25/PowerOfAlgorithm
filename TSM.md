@@ -25,7 +25,6 @@ public class TSE {
             return dist[pos][0]; 
         }
 
-        // Memoization check
         int mask = createMask(visited);
         if (memo[pos][mask] != 0) {
             return memo[pos][mask];
@@ -33,7 +32,6 @@ public class TSE {
 
         int res = MAX; 
 
-        // Explore all unvisited nodes
         for (int next = 0; next < n; next++) {
             if (!visited[next]) {
                 visited[next] = true; 
